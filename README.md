@@ -1,4 +1,4 @@
 gwt-project-issue
 =================
 
-see question on the mailing-list
+see the [question](http://bit.ly/1iNKcMb) on the mailing-list

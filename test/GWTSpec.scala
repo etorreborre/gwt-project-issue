@@ -3,24 +3,27 @@ package test
 import org.specs2._
 import specification.script.{GWT, StandardDelimitedStepParsers, StepParser}
 
-class ApplicationSpec extends Specification with GWT with StandardDelimitedStepParsers { def is =
+class GWTSpec extends Specification with GWT with StandardDelimitedStepParsers { def is =
   
    s2"""
 
-    Create a new account with valid user data.
-      Given Valid user data                                             ${signup.start}
-          in JSON format # {"username":"bob", "password":"secure"} #
-      When I do POST to { /signup } with given user data
-      Then I expect HTTP code {201}                                     ${signup.end}
+    Test specs2 parsing with different delimiter.
+      Given a valid JSON string #{"username":"bob", "password":"secure"}# ${signup.start}
+      When compare parsed string with delimiter {#}
+      Then I expect the string between the delimiter { notUsed }                                     ${signup.end}
     """
 
   val aJsonString = StepParser((s: String) => s)("""#([^#]+)#""".r)
-
+  
+  val expectedJSON = "{\"username\":\"bob\", \"password\":\"secure\"}"
+  
   lazy val signup = Scenario("signUp").
     given(aJsonString).
-    when(aString) { case postURL :: userData :: _ =>  makeAPICall(userData, postURL) }.
-    andThen(anInt) { case expectedHTTPCode :: responseHTTPCode :: _ => expectedHTTPCode == responseHTTPCode }
+    when(aString) { case delimiter :: parsedGivenLine :: _ =>  passParsedJSONString(parsedGivenLine, delimiter) }.
+    andThen(aString) { case parsedThenString :: parsedGivenString :: _ => expectedJSON == parsedGivenString }
 
-  def makeAPICall(jsonString: String, apiCallString: String): Int = 201
+  def passParsedJSONString(jsonString: String, apiCallString: String): String = {
+    return jsonString
+  }
 
 }

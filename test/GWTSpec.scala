@@ -20,10 +20,8 @@ class GWTSpec extends Specification with GWT with StandardDelimitedStepParsers {
   lazy val signup = Scenario("signUp").
     given(aJsonString).
     when(aString) { case delimiter :: parsedGivenLine :: _ =>  passParsedJSONString(parsedGivenLine, delimiter) }.
-    andThen(aString) { case parsedThenString :: parsedGivenString :: _ => expectedJSON == parsedGivenString }
+    andThen(aString) { case parsedThenString :: parsedGivenString :: _ => expectedJSON === parsedGivenString }
 
-  def passParsedJSONString(jsonString: String, apiCallString: String): String = {
-    return jsonString
-  }
+  def passParsedJSONString(jsonString: String, apiCallString: String): String = jsonString.pp
 
 }

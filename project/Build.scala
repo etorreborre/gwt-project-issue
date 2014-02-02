@@ -11,12 +11,15 @@ object ApplicationBuild extends Build {
     // Add your project dependencies here,
     jdbc,
     anorm,
-    "org.specs2" %% "specs2" % "2.3.7"
+    "org.specs2" %% "specs2-core"  % "2.4-SNAPSHOT",
+    "org.specs2" %% "specs2-gwt"   % "2.4-SNAPSHOT",
+    "org.specs2" %% "specs2-junit" % "2.4-SNAPSHOT"
   )
 
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
-    // Add your own project settings here      
+    // Add your own project settings here
+    resolvers ++= Seq(Resolver.sonatypeRepo("snapshots"))       
   )
 
 }
